@@ -11,7 +11,8 @@ class CardItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String endOfCard = cardNumber.substring(12,);
+    print(cardNumber);
+    String endOfCard = cardNumber.substring(10, 15);
     return Card(
       child: Container(
         width: MediaQuery.of(context).size.width * 0.86,

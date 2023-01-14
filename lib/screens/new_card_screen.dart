@@ -22,11 +22,7 @@ class NewCardScreen extends StatefulWidget {
 class _NewCardScreenState extends State<NewCardScreen> {
   bool isNeedSave = true;
 
-  //@override
-  // void didChangeDependencies() {
-  //   print(NewCardScreen.infoAboutCard);
-  //   super.didChangeDependencies();
-  // }
+
   @override
   Widget build(BuildContext context) {
     final firstNameController = TextEditingController();
@@ -221,7 +217,10 @@ class _NewCardScreenState extends State<NewCardScreen> {
                     // });
                     print(Cards.cards.last.cardNumber);
                     print(Cards.cards.length);
-                    Navigator.pop(context, Cards.cards);
+                    Navigator.pop(context, cartochka.Card(myController.text,
+                            yearController.text,
+                            monthController.text,
+                            cvvController.text));
                   },
                   child: Container(
                     child: Row(

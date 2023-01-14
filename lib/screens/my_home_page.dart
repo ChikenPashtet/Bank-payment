@@ -12,9 +12,15 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  List<cartochka.Card> bcards = [
+    cartochka.Card('1234567812345678', '1', '1', '1')
+  ];
+
   @override
   Widget build(BuildContext context) {
-    final create = (card) => setState(() {Cards.cards.add(card);});
+    final create = (card) => setState(() {
+          Cards.cards.add(card);
+        });
     final cart = Provider.of<Cards>(context);
     return Scaffold(
       backgroundColor: const Color(0xFFF5DF4D),
@@ -129,16 +135,16 @@ class _MyHomePageState extends State<MyHomePage> {
                   padding: EdgeInsets.only(
                       left: MediaQuery.of(context).size.width * 0.06),
                   scrollDirection: Axis.horizontal,
-                  itemCount: Cards.cards.length,
+                  //itemCount: Cards.cards.length,
                   itemBuilder: (BuildContext context, int index) {
                     return CardItem(
-                        Cards.cards[index].cardNumber,
-                        Cards.cards[index].cardYear,
-                        Cards.cards[index].cardMonth,
-                        Cards.cards[index].cardCode);
+                        bcards[index].cardNumber,
+                        bcards[index].cardYear,
+                        bcards[index].cardMonth,
+                        bcards[index].cardCode);
                     //можно просто карту передать)))
                   },
-                  //itemCount: cart.cards.length > 0 ? cart.cards.length : 0,
+                  itemCount: bcards.length > 0 ? bcards.length : 0,
                 ),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.044),
@@ -146,11 +152,12 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: OutlinedButton(
                     style: OutlinedButton.styleFrom(),
-                    onPressed: () {
-                      setState(() async {
-                        Cards.cards = await Navigator.of(context)
-                                .pushNamed(NewCardScreen.routeName, arguments: {create})
-                            as List<cartochka.Card>;
+                    onPressed: () async {
+                      cartochka.Card card = await Navigator.of(context)
+                          .pushNamed(NewCardScreen.routeName) as cartochka.Card;
+
+                      setState(() {
+                        bcards.add(card);
                       });
                       // Navigator.of(context).pushNamed(NewCardScreen.routeName);
                     },
