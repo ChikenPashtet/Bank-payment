@@ -61,8 +61,8 @@ flutter:
   uses-material-design: true
 
   assets:
-    - /Users/pavel/StudioProjects/donatello_project/assets/images/Pay_System_Logo.png
-    - /Users/pavel/StudioProjects/donatello_project/assets/images/payment_card.png
+    - assets/images/Pay_System_Logo.png
+    - assets/images/payment_card.png
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

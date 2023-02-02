@@ -1,63 +1,72 @@
 import 'package:donatello_project/screens/new_card_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../styles/styles.dart';
+
 class TextFieldCard extends StatefulWidget {
   final String labelText;
   final double height;
   final String hintText;
   final TextEditingController controller;
+  final String? Function(String?)? validator;
 
-  TextFieldCard(this.labelText, this.height, this.hintText, this.controller);
+  TextFieldCard(this.labelText, this.height, this.hintText, this.controller, this.validator);
 
   @override
   State<TextFieldCard> createState() => _TextFieldCardState();
 }
 
 class _TextFieldCardState extends State<TextFieldCard> {
-  final myController = TextEditingController();
-
   final Map<String, String> infoCard = {};
-
-  //@override
-  // void dispose() {
-  //   // infoCard.putIfAbsent(widget.labelText, () => myController.text);
-  //   // print(infoCard);
-  //   NewCardScreen.infoAboutCard.putIfAbsent(widget.labelText, () => myController.text);
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: myController,
-      style: TextStyle(
-        fontSize: widget.height,
-      ),
-      decoration: InputDecoration(
-        helperText: widget.hintText,
-        helperStyle: const TextStyle(
-          fontSize: 12,
-          fontWeight: FontWeight.w400,
-          color: Color(0xFFABB4BD),
-        ),
-        floatingLabelBehavior: FloatingLabelBehavior.always,
-        fillColor: const Color(0xFFF4F4F4),
-        filled: true,
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            width: 3,
-            color: Color(0xFFF4F4F4),
+    return Stack(children: [
+      Padding(
+        padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+        child: TextFormField(
+          validator: widget.validator,
+          controller: widget.controller,
+          style:
+              TextStyle(fontSize: widget.height, fontWeight: FontWeight.w400),
+          cursorColor: Colors.black,
+          decoration: InputDecoration(
+            floatingLabelBehavior: FloatingLabelBehavior.always,
+            fillColor: Styles.colorForTextField,
+            filled: true,
+            enabledBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                width: 3,
+                color: Styles.colorForTextField,
+              ),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: const BorderSide(
+                width: 3,
+                color: Styles.colorForTextField,
+              ),
+              borderRadius: BorderRadius.circular(12),
+            ),
           ),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        // hintText: 'Amount in USD',
-        labelText: widget.labelText,
-        labelStyle: const TextStyle(
-          color: Color(0xFFABB4BD),
-          fontSize: 14,
-          fontWeight: FontWeight.w400,
         ),
       ),
-    );
+      Container(
+        color: Colors.white,
+        child: FittedBox(
+          child: Text(
+            widget.labelText,
+            style: Styles.fontForTextField,
+          ),
+        ),
+      ),
+      Container(
+        padding: const EdgeInsets.only(top: 87),
+        child: Text(
+          widget.hintText,
+          style: Styles.fontForHint,
+        ),
+      ),
+    ]);
   }
 }

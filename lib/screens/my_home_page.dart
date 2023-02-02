@@ -1,10 +1,11 @@
 import 'package:donatello_project/screens/new_card_screen.dart';
 import 'package:donatello_project/widgets/card_item.dart';
+import 'package:donatello_project/widgets/text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../models/cards.dart';
 import '../models/card.dart' as cartochka;
+import '../styles/styles.dart';
 
 class MyHomePage extends StatefulWidget {
   @override
@@ -12,34 +13,23 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  List<cartochka.Card> bcards = [
-    cartochka.Card('1234567812345678', '1', '1', '1')
-  ];
-
   @override
   Widget build(BuildContext context) {
-    final create = (card) => setState(() {
-          Cards.cards.add(card);
-        });
-    final cart = Provider.of<Cards>(context);
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
-      backgroundColor: const Color(0xFFF5DF4D),
+      backgroundColor: Styles.mainColor,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: const Color(0xFFF5DF4D),
+        backgroundColor: Styles.mainColor,
         toolbarHeight: (MediaQuery.of(context).size.height -
                 MediaQuery.of(context).padding.top) *
             0.15,
         title: Padding(
-          padding:
-              EdgeInsets.only(top: (MediaQuery.of(context).size.height * 0.04)),
+          padding: EdgeInsets.only(top: height * 0.04),
           child: const Text(
             'Payment method',
-            style: TextStyle(
-              fontSize: 28,
-              fontWeight: FontWeight.w700,
-              color: Colors.black,
-            ),
+            style: Styles.title,
           ),
         ),
       ),
@@ -49,58 +39,31 @@ class _MyHomePageState extends State<MyHomePage> {
               topLeft: Radius.circular(30), topRight: Radius.circular(30)),
           color: Colors.white,
         ),
-        height: MediaQuery.of(context).size.height,
+        height: height,
         child: SingleChildScrollView(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.05,
+                height: height * 0.05,
               ),
               const Center(
                 child: Text(
                   'Apple Pay',
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: Styles.titleForCard,
                 ),
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.048,
+                height: height * 0.024,
               ),
               Container(
-                padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.06),
-                child: TextField(
-                  style: const TextStyle(
-                    fontSize: 16,
-                  ),
-                  decoration: InputDecoration(
-                    floatingLabelBehavior: FloatingLabelBehavior.always,
-                    fillColor: const Color(0xFFF4F4F4),
-                    filled: true,
-                    enabledBorder: OutlineInputBorder(
-                      borderSide: const BorderSide(
-                        width: 3,
-                        color: Color(0xFFF4F4F4),
-                      ),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    // hintText: 'Amount in USD',
-                    labelText: 'Amount in USD',
-                    labelStyle: const TextStyle(
-                      color: Color(0xFFABB4BD),
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                    ),
-                  ),
-                ),
+                padding: EdgeInsets.symmetric(horizontal: width * 0.06),
+                child: TextFieldCard(
+                    'Amount in USD', 16, '', TextEditingController(), null),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.02),
+              SizedBox(height: height * 0.01),
               Container(
-                padding: EdgeInsets.symmetric(
-                    horizontal: MediaQuery.of(context).size.width * 0.06),
+                padding: EdgeInsets.symmetric(horizontal: width * 0.06),
                 child: ElevatedButton(
                   style:
                       ElevatedButton.styleFrom(backgroundColor: Colors.black),
@@ -109,45 +72,48 @@ class _MyHomePageState extends State<MyHomePage> {
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Text(
+                      children: const [
+                        Text(
                           'Add Money with ',
                         ),
-                        const Icon(
+                        Icon(
                           Icons.apple_sharp,
                           size: 15,
                         ),
-                        const Text('Pay'),
+                        Text('Pay'),
                       ],
                     ),
                   ),
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.04),
+              SizedBox(height: height * 0.04),
               const Text(
                 'Other payment methods',
-                style: TextStyle(fontSize: 20, color: Color(0xFFABB4BD)),
+                style: Styles.subTitle,
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.012),
+              SizedBox(height: height * 0.012),
               Container(
-                height: MediaQuery.of(context).size.height * 0.25,
+                height: height * 0.25,
                 child: ListView.builder(
-                  padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width * 0.06),
+                  physics: PageScrollPhysics(),
+                  //padding: EdgeInsets.only(left: width * 0.06),
                   scrollDirection: Axis.horizontal,
                   //itemCount: Cards.cards.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return CardItem(
-                        bcards[index].cardNumber,
-                        bcards[index].cardYear,
-                        bcards[index].cardMonth,
-                        bcards[index].cardCode);
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: width * 0.07),
+                      child: CardItem(
+                          Cards.bcards[index].cardNumber,
+                          Cards.bcards[index].cardYear,
+                          Cards.bcards[index].cardMonth,
+                          Cards.bcards[index].cardCode),
+                    );
                     //можно просто карту передать)))
                   },
-                  itemCount: bcards.length > 0 ? bcards.length : 0,
+                  itemCount: Cards.bcards.length > 0 ? Cards.bcards.length : 0,
                 ),
               ),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.044),
+              SizedBox(height: height * 0.044),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 25.0),
                 child: OutlinedButton(
@@ -155,28 +121,24 @@ class _MyHomePageState extends State<MyHomePage> {
                     onPressed: () async {
                       cartochka.Card card = await Navigator.of(context)
                           .pushNamed(NewCardScreen.routeName) as cartochka.Card;
-
+                      //Как предотвратить возращение null?
                       setState(() {
-                        bcards.add(card);
+                        if (card != Null) {
+                          Cards.bcards.add(card);
+                        }
                       });
-                      // Navigator.of(context).pushNamed(NewCardScreen.routeName);
                     },
                     child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: MediaQuery.of(context).size.height * 0.017),
+                      padding: EdgeInsets.symmetric(vertical: height * 0.017),
                       child: Row(
                         children: [
-                          Image.asset(
-                              '/Users/pavel/StudioProjects/donatello_project/assets/images/payment_card.png'),
+                          Image.asset('assets/images/payment_card.png'),
                           const SizedBox(
                             width: 10,
                           ),
                           const Text(
                             'Pay with new card',
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w400),
+                            style: Styles.ordinaryFont,
                           ),
                         ],
                       ),
