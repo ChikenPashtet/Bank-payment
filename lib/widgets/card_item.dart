@@ -127,6 +127,7 @@ class _CardItemState extends State<CardItem> {
                     style: Styles.ordinaryFont,
                   ),
                   onPressed: () {
+                    //Provider.of<Cards>(context, listen: false).removeCard(widget.cardNumber);
                     // context.read<Cards>().removeCard(widget.cardNumber);
                     Navigator.of(context).pop();
                   },

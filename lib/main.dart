@@ -19,18 +19,16 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: const Color(0xFFF5DF4D),
       ),
-      home: MultiProvider(providers: [
-        ChangeNotifierProvider(
-          create: (BuildContext context) {
-            Cards();
-          },
-        ),
-        ChangeNotifierProvider(
-          create: (BuildContext context) {
-            MyHomePage();
-          },
-        )
-      ], child: MyHomePage()),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(
+            create: (BuildContext context) {
+              Cards();
+            },
+          ),
+        ],
+        child: MyHomePage(),
+      ),
       routes: {
         NewCardScreen.routeName: (ctx) => NewCardScreen(),
       },
