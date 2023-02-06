@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
         providers: [
           ChangeNotifierProvider(
             create: (BuildContext context) {
-              Cards();
+              return Cards();
             },
           ),
         ],

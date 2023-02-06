@@ -97,6 +97,7 @@ class _CardItemState extends State<CardItem> {
   }
 
   Future simpleDialog(BuildContext context) {
+    final list = Provider.of<Cards>(context, listen: false);
     return showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -127,6 +128,7 @@ class _CardItemState extends State<CardItem> {
                     style: Styles.ordinaryFont,
                   ),
                   onPressed: () {
+                    list.removeCard(widget.cardNumber);
                     //Provider.of<Cards>(context, listen: false).removeCard(widget.cardNumber);
                     // context.read<Cards>().removeCard(widget.cardNumber);
                     Navigator.of(context).pop();

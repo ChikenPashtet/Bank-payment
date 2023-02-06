@@ -15,7 +15,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    //final list = Provider.of<Cards>(context);
+    final list = Provider.of<Cards>(context);
     //Если строку выше расскоментить, то крах системы
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
@@ -105,15 +105,14 @@ class _MyHomePageState extends State<MyHomePage> {
                     return Padding(
                       padding: EdgeInsets.symmetric(horizontal: width * 0.07),
                       child: CardItem(
-                          Cards().bcards[index].cardNumber,
-                          Cards().bcards[index].cardYear,
-                          Cards().bcards[index].cardMonth,
-                          Cards().bcards[index].cardCode),
+                          list.bcards[index].cardNumber,
+                          list.bcards[index].cardYear,
+                          list.bcards[index].cardMonth,
+                          list.bcards[index].cardCode),
                     );
                     //можно просто карту передать)))
                   },
-                  itemCount:
-                      Cards().bcards.length > 0 ? Cards().bcards.length : 0,
+                  itemCount: list.bcards.length > 0 ? list.bcards.length : 0,
                 ),
               ),
               SizedBox(height: height * 0.044),
@@ -122,12 +121,13 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: OutlinedButton(
                     style: OutlinedButton.styleFrom(),
                     onPressed: () async {
-                      cartochka.Card card = await Navigator.of(context)
-                          .pushNamed(NewCardScreen.routeName) as cartochka.Card;
+                      cartochka.Card? card = await Navigator.of(context)
+                              .pushNamed(NewCardScreen.routeName)
+                          as cartochka.Card?;
                       //Как предотвратить возращение null?
                       setState(() {
-                        if (card != Null) {
-                          Cards().addCard(card);
+                        if (card != null) {
+                          list.addCard(card);
                         }
                       });
                     },
